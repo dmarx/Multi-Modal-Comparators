@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "Multi-Modal Comparators"
+version = "0.1.0"
+description = "Unified API to facilitate usage of pre-trained \"perceptor\" models, a la CLIP"
+authors = ["David Marx <david.marx84@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+clip = {git = "https://github.com/openai/CLIP"}
+loguru = "^0.6.0"
+Pillow = "^9.1.0"
+torch = "^1.11.0"
+torchvision = "^0.12.0"
+torchaudio = "^0.11.0"
+kornia = "^0.6.4"
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
