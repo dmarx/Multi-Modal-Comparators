@@ -1,6 +1,7 @@
 # this should probably be a nn.Module
 #class MultiModalComparator(nn.Module):
 
+from loguru import logger
 import torch
 
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -93,3 +94,7 @@ class MultiModalComparator:
     @property
     def name(self):
        return str(self)
+    def _reduce_projections(self, **kargs):
+        logger.debug(kargs)
+        projections = [v.squeeze() for v in kargs.values()] #list(kargs.values())
+        return torch.dot(*projections)

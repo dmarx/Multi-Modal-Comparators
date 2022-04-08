@@ -1,6 +1,7 @@
 from mmc.multimmc import MultiMMC
 from mmc.modalities import TEXT, IMAGE, AUDIO
 import PIL
+from loguru import logger
 
 def test_init_perceptor():
     perceptor = MultiMMC(TEXT, IMAGE)
@@ -58,6 +59,6 @@ def test_compare_text2img():
     text_neg = "a painting of a cat"
     img = PIL.Image.open('./tests/assets/marley_birthday.jpg').resize((250,200))
     v_pos = perceptor.compare(image=img, text=text_pos)
-    v_neg = perceptor.compare(image=img, text=text_pos)
-    logger.debug(v_pos, v_neg)
+    v_neg = perceptor.compare(image=img, text=text_neg)
+    logger.debug((v_pos, v_neg))
     assert v_pos > v_neg

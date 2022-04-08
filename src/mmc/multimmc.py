@@ -58,7 +58,10 @@ class MultiMMC(MultiModalComparator):
             logger.debug(model)
             if model._supports_mode(mode):
                 #item.to(model.device)
-                projections[model.name] = {'projection':model._project_item(item, mode), 'weight':weight}
+                #logger.debug(model_name)
+                #logger.debug(model.name)
+                #projections[model.name] = {'projection':model._project_item(item, mode), 'weight':weight}
+                projections[model_name] = {'projection':model._project_item(item, mode), 'weight':weight}
         return {'modality':mode, 'projections':projections}
 
     def compare(
@@ -74,6 +77,7 @@ class MultiMMC(MultiModalComparator):
             outv = (outv, projections)
         return outv
     def _reduce_projections(self, projections, return_raw_scores=False):
+        logger.debug(projections)
         accumulator = 0
         raw_scores = {}
         # this is hideous and should be trivially vectorizable. 
@@ -83,8 +87,9 @@ class MultiMMC(MultiModalComparator):
 
             # compute per-model scores and compute weighted sum
             kargs = {}
-            for modality_name, d_vectors in projections:
-                kargs[modality_name] = d_vectors[model_key]
+            for modality_name, d_vectors in projections.items():
+                #kargs[modality_name] = d_vectors[model_key]
+                kargs[modality_name] = d_vectors['projections'][model_key]['projection']
             score = perceptor._reduce_projections(**kargs)
             accumulator += score * weight
 
