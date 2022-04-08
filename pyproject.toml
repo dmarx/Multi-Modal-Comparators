@@ -6,7 +6,7 @@ authors = ["David Marx <david.marx84@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.7"
 clip = {git = "https://github.com/openai/CLIP", branch = "main"}
 loguru = "^0.6.0"
 Pillow = "^9.1.0"
