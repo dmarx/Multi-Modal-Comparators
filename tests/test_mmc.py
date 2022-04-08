@@ -22,3 +22,10 @@ def test_oai_clip_project_img():
     #assert projection['modality'] == 'image'
     #logger.debug(projection.shape) # [1 1024]
     assert isinstance(projection, torch.Tensor)
+
+def test_oai_clip_supported_modalities():
+    ldr = OpenAiClipLoader(id='RN50')
+    oai_clip = ldr.load()
+    assert oai_clip.supports_text
+    assert oai_clip.supports_image
+    assert not oai_clip.supports_audio
