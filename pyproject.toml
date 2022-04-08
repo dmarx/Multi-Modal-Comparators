@@ -10,9 +10,9 @@ python = "^3.7"
 clip = {git = "https://github.com/openai/CLIP", branch = "main"}
 loguru = "^0.6.0"
 Pillow = "^9.1.0"
-torch = "^1.11.0"
-torchvision = "^0.12.0"
-torchaudio = "^0.11.0"
+#torch = "^1.11.0"
+#torchvision = "^0.12.0"
+#torchaudio = "^0.11.0"
 kornia = "^0.6.4"
 
 [tool.poetry.dev-dependencies]
