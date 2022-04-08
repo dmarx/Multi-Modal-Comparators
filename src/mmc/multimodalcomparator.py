@@ -1,5 +1,11 @@
 # this should probably be a nn.Module
 #class MultiModalComparator(nn.Module):
+
+import torch
+
+DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+
 class MultiModalComparator:
     """
     Generic class for encapsulating models that can compare data across multiple modalities

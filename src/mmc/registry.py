@@ -30,3 +30,11 @@ class MmcRegistry:
         return hits
 
 REGISTRY = MmcRegistry()
+
+def register_model(mmc_loader: "BaseMmcLoader"):
+    """
+    Decorator that attaches mmc loaders to the REGISTRY 
+    """
+    logger.debug(f"registering model: {mmc_loader}")
+    REGISTRY.loaders.append(mmc_loader)
+    return mmc_loader

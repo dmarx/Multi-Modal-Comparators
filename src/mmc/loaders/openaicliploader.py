@@ -9,7 +9,9 @@ import torch
 from .basemmcloader import BaseMmcLoader
 from ..modalities import TEXT, IMAGE
 from ..multimodalcomparator import MultiModalComparator
-from ..registry import REGISTRY
+from ..registry import REGISTRY, register_model
+
+DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 
 class OpenAiClipLoader(BaseMmcLoader):
@@ -42,6 +44,9 @@ class OpenAiClipLoader(BaseMmcLoader):
 
 
 for model_name in clip.available_models():
-  REGISTRY.loaders.append(
-      OpenAiClipLoader(id=model_name)
-      )
+    #REGISTRY.loaders.append(
+    #    OpenAiClipLoader(id=model_name)
+    #)
+    register_model(
+        OpenAiClipLoader(id=model_name)
+    )

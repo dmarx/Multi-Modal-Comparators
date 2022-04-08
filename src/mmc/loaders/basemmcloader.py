@@ -1,10 +1,10 @@
-from abc import ABC
+import abc
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..multimodalcomparator import MultiModalComparator
 
-class BaseMmcLoader(ABC):
+class BaseMmcLoader(abc.ABC):
     """
     Base class that manages the procedure for loading MMC objects
     """

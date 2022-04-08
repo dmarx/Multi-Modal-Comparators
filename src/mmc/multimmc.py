@@ -4,8 +4,12 @@ which must be at least compatible with respect to the two modes being compared.
 """
 
 from loguru import logger
+import torch 
 
 from .registry import REGISTRY
+
+DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
 
 class MultiMMC(MultiModalComparator):
     _registry = REGISTRY #?
