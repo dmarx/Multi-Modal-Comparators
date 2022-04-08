@@ -1,6 +1,6 @@
 import torch
 
-from mmc import MultiMMC
+from mmc.multimmc import MultiMMC
 from mmc.modalities import TEXT, IMAGE
 
 
@@ -12,7 +12,7 @@ from mmc.modalities import TEXT, IMAGE
 # the individual MMCs attached to the MultiMMC must each be compatible with
 # the modalities the MultiMMC supports.
 
-perceptor = MultiMMC(TEXT, IMAGE, shared_latent=True)
+perceptor = MultiMMC(TEXT, IMAGE)#, shared_latent=True)
 
 oa_clip_modelnames = [
   'RN50',

@@ -7,6 +7,7 @@ from loguru import logger
 import torch 
 
 from .registry import REGISTRY
+from .multimodalcomparator import MultiModalComparator
 
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
