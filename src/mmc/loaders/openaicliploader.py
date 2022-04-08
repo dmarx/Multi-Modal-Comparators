@@ -33,9 +33,9 @@ class OpenAiClipLoader(BaseMmcLoader):
         Returns the MMC associated with this loader.
         """
         import clip
-        model, preprocess_image = clip.load(self.id, jit=False)
+        model, preprocess_image = clip.load(self.id, jit=False, device=device)
         model.requires_grad_(False)
-        model.to(device, memory_format=torch.channels_last)
+        #model.to(device, memory_format=torch.channels_last)
         tokenizer = clip.tokenize # clip.simple_tokenizer.SimpleTokenizer()
         mmc = MultiModalComparator(name=str(self), device=device)
         mmc.register_modality(modality=TEXT, projector=model.encode_text, preprocessor=tokenizer)

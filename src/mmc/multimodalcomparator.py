@@ -71,7 +71,7 @@ class MultiModalComparator:
         project = self.modes[mode]['projector']
         preprocess = self.modes[mode]['preprocessor']
         item = preprocess(item)
-        item.to(self.device)
+        item = item.to(self.device)
         return project(item)
 
     @property
