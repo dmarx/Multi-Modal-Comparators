@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "Multi-Modal Comparators"
+name = "mmc" #"Multi-Modal Comparators"
 version = "0.1.0"
 description = "Unified API to facilitate usage of pre-trained \"perceptor\" models, a la CLIP"
 authors = ["David Marx <david.marx84@gmail.com>"]
