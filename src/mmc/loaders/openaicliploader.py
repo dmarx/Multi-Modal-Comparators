@@ -4,6 +4,7 @@ Loaders for pretrained CLIP models published by OpenAI
 """
 
 import clip # this should probably be isolated somehow
+from loguru import logger
 import torch
 
 from .basemmcloader import BaseMmcLoader
@@ -37,9 +38,15 @@ class OpenAiClipLoader(BaseMmcLoader):
         model.requires_grad_(False)
         #model.to(device, memory_format=torch.channels_last)
         tokenizer = clip.tokenize # clip.simple_tokenizer.SimpleTokenizer()
+        def preprocess_image_extended(*args, **kwargs):
+            x = preprocess_image(*args, **kwargs)
+            if x.ndim == 3:
+                logger.debug("adding batch dimension")
+                x = x.unsqueeze(0)
+            return x
         mmc = MultiModalComparator(name=str(self), device=device)
         mmc.register_modality(modality=TEXT, projector=model.encode_text, preprocessor=tokenizer)
-        mmc.register_modality(modality=IMAGE, projector=model.encode_image, preprocessor=preprocess_image)
+        mmc.register_modality(modality=IMAGE, projector=model.encode_image, preprocessor=preprocess_image_extended)
         return mmc
 
 
