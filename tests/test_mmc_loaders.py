@@ -20,4 +20,5 @@ def test_loader_attrs():
 
 def test_load_oai_clip():
     from mmc.loaders import OpenAiClipLoader
-    oai_clip = OpenAiClipLoader(id='RN50')
+    ldr = OpenAiClipLoader(id='RN50')
+    oai_clip = ldr.load()
