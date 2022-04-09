@@ -14,3 +14,7 @@ def test_clip_search_REGISTRY():
     from mmc.registry import REGISTRY
     hits = REGISTRY.find(architecture='clip')
     assert len(hits) > 1
+
+def test_register_model():
+    from mmc.registry import register_model
+    
