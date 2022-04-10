@@ -22,3 +22,8 @@ def test_load_oai_clip():
     from mmc.loaders import OpenAiClipLoader
     ldr = OpenAiClipLoader(id='RN50')
     oai_clip = ldr.load()
+
+def test_load_mlf_clip():
+    from mmc.loaders import MlfClipLoader
+    ldr = MlfClipLoader(id='RN50--cc12m')
+    mlf_clip = ldr.load()
