@@ -33,3 +33,6 @@ class BaseMmcLoader(abc.ABC):
 
     def __str__(self) -> str:
         return f"[{self.architecture} - {self.publisher} - {self.id}]"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
