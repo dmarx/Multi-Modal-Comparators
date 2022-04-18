@@ -45,7 +45,8 @@ class MlfClipLoader(BaseMmcLoader):
             pretrained=dataset)
 
         model.requires_grad_(False)
-        #model.to(device, memory_format=torch.channels_last)
+        model.eval()
+        model.to(device, memory_format=torch.channels_last)
         #tokenizer = clip.tokenize # clip.simple_tokenizer.SimpleTokenizer()
         tokenizer = open_clip.tokenize # clip.simple_tokenizer.SimpleTokenizer()
         def preprocess_image_extended(*args, **kwargs):
@@ -57,6 +58,7 @@ class MlfClipLoader(BaseMmcLoader):
         mmc = MultiModalComparator(name=str(self), device=device)
         mmc.register_modality(modality=TEXT, projector=model.encode_text, preprocessor=tokenizer)
         mmc.register_modality(modality=IMAGE, projector=model.encode_image, preprocessor=preprocess_image_extended)
+        mmc._model = model
         return mmc
 
 
