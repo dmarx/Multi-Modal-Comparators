@@ -28,6 +28,9 @@ def test_load_mlf_clip():
     ldr = MlfClipLoader(id='RN50--cc12m')
     mlf_clip = ldr.load()
 
+## Models below pass load but fail inference tests.
+# Commonality here I think is models loaded from huggingface
+
 def test_load_sbert_mclip():
     from mmc.loaders import SBertClipLoader
     ldr = SBertClipLoader()
