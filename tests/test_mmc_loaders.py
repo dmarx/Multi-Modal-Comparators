@@ -27,3 +27,13 @@ def test_load_mlf_clip():
     from mmc.loaders import MlfClipLoader
     ldr = MlfClipLoader(id='RN50--cc12m')
     mlf_clip = ldr.load()
+
+def test_load_sbert_mclip():
+    from mmc.loaders import SBertClipLoader
+    ldr = SBertClipLoader()
+    sbert_mclip = ldr.load()
+
+def test_load_clipfa():
+    from mmc.loaders import ClipFaLoader
+    ldr = ClipFaLoader()
+    farsi_clip = ldr.load()
