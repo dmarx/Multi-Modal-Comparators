@@ -16,6 +16,8 @@ Pillow = "^9.1.0"
 kornia = "^0.6.4"
 open-clip-torch = "^0.2.1"
 declip = {git = "https://github.com/pytti-tools/DeCLIP", branch = "installable"}
+#cloob....
+sentence-transformers = "^2.2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
