@@ -72,7 +72,11 @@ class MultiModalComparator:
         project = self.modes[mode]['projector']
         preprocess = self.modes[mode]['preprocessor']
         item = preprocess(item)
-        item = item.to(self.device)
+        # If preprocessor is identity, item will not be a tensor
+        try:
+            item = item.to(self.device)
+        except:
+            pass
         return project(item)
 
     @property
