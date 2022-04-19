@@ -64,4 +64,4 @@ class SBertClipLoader(BaseMmcLoader):
         mmc._model = img_model
         return mmc
 
-register_model(SBertClipLoader)
+register_model(SBertClipLoader())
