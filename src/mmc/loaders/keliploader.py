@@ -17,6 +17,7 @@ DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 
 
 class ClipFaLoader(BaseMmcLoader):
+class ClipKelipLoader(BaseMmcLoader):
     """
     CLIP model trained for Korean and English languages
     https://github.com/navervision/KELIP
@@ -45,5 +46,6 @@ class ClipFaLoader(BaseMmcLoader):
 
 
 register_model(
-    ClipFaLoader()
+    #They don't have a systematic way for listing their weights it for now and only support ViT-B/32 
+    ClipKelipLoader(id='ViT-B/32')
 )

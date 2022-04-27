@@ -5,6 +5,7 @@ https://github.com/crowsonkb/cloob-training
 """
 
 #import clip # this should probably be isolated somehow
+from cloob_training import pretrained # this should probably be isolated somehow
 from loguru import logger
 import torch
 
@@ -16,7 +17,7 @@ from ..registry import REGISTRY, register_model
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 
-class ClipFaLoader(BaseMmcLoader):
+class CloobTrainingLoader(BaseMmcLoader):
     """
     CLOOB models by crowsonkb, initially trained on LAION datasets
     https://github.com/crowsonkb/cloob-training
@@ -47,7 +48,7 @@ class ClipFaLoader(BaseMmcLoader):
         mmc._model = model
         return mmc
 
-
-register_model(
-    ClipFaLoader()
-)
+for model_name in pretrained.list_configs():
+    register_model(
+        CloobTrainingLoader(id=model_name)
+    )
