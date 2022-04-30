@@ -4,8 +4,10 @@ Loaders for pretrained CLOOB model by crowsonkb
 https://github.com/crowsonkb/cloob-training
 """
 
-#import clip # this should probably be isolated somehow
-from cloob_training import pretrained # this should probably be isolated somehow
+# importing this first is necessary for cloob to be available
+import napm 
+
+from cloob.cloob_training import pretrained # this should probably be isolated somehow
 from loguru import logger
 import torch
 
@@ -34,7 +36,7 @@ class CloobTrainingLoader(BaseMmcLoader):
         """
         Returns the MMC associated with this loader.
         """
-        from cloob_training import model_pt, pretrained
+        from cloob.cloob_training import model_pt, pretrained
         
         config = pretrained.get_config(self.id)
         model = model_pt.get_pt_model(config)
