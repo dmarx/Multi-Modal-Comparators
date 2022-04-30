@@ -16,8 +16,14 @@ from ..modalities import TEXT, IMAGE
 from ..multimodalcomparator import MultiModalComparator
 from ..registry import REGISTRY, register_model
 
+from torchvision.transforms import ToTensor
+
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import PIL
 
 class KatCloobLoader(BaseMmcLoader):
     """
@@ -43,10 +49,19 @@ class KatCloobLoader(BaseMmcLoader):
         checkpoint = pretrained.download_checkpoint(config)
         model.load_state_dict(model_pt.get_pt_params(config, checkpoint))
         model.eval().requires_grad_(False).to(device)
+        d_im = config['image_encoder']['image_size']
+
+        def _preprocess_closure(img: "PIL.Image.Image") -> torch.Tensor:
+            img = img.resize((d_im, d_im)).convert('RGB')
+            t_img = ToTensor()(img)
+            if t_img.ndim == 3:
+                t_img = t_img.unsqueeze(0)
+            t_img = t_img.to(device)
+            return model.normalize(t_img)
         
         mmc = MultiModalComparator(name=str(self), device=device)
         mmc.register_modality(modality=TEXT, projector=model.text_encoder, preprocessor=model.tokenize)
-        mmc.register_modality(modality=IMAGE, projector=model.image_encoder, preprocessor=model.normalize)
+        mmc.register_modality(modality=IMAGE, projector=model.image_encoder, preprocessor=_preprocess_closure)
         mmc._model = model
         return mmc
 
