@@ -19,7 +19,7 @@ from ..registry import REGISTRY, register_model
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 
-class CloobTrainingLoader(BaseMmcLoader):
+class KatCloobLoader(BaseMmcLoader):
     """
     CLOOB models by crowsonkb, initially trained on LAION datasets
     https://github.com/crowsonkb/cloob-training
@@ -52,5 +52,5 @@ class CloobTrainingLoader(BaseMmcLoader):
 
 for model_name in pretrained.list_configs():
     register_model(
-        CloobTrainingLoader(id=model_name)
+        KatCloobLoader(id=model_name)
     )

@@ -40,3 +40,8 @@ def test_load_clipfa():
     from mmc.loaders import ClipFaLoader
     ldr = ClipFaLoader()
     farsi_clip = ldr.load()
+
+def test_load_katcloob():
+    from mmc.loaders import KatCloobLoader
+    ldr = KatCloobLoader()
+    farsi_clip = ldr.load()
