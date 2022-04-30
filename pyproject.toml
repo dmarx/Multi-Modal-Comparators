@@ -18,6 +18,7 @@ open-clip-torch = "^0.2.1"
 declip = {git = "https://github.com/pytti-tools/DeCLIP", branch = "installable"}
 #cloob....
 sentence-transformers = "^2.2.0"
+napm="0.1.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
