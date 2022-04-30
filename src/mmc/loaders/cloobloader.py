@@ -26,7 +26,7 @@ class KatCloobLoader(BaseMmcLoader):
     """
     def __init__(
         self,
-        id,
+        id='cloob_laion_400m_vit_b_16_32_epochs',
     ):
         self.architecture = 'cloob' # should this be a type too?
         self.publisher = 'crowsonkb'
