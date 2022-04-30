@@ -44,4 +44,4 @@ def test_load_clipfa():
 def test_load_katcloob():
     from mmc.loaders import KatCloobLoader
     ldr = KatCloobLoader()
-    farsi_clip = ldr.load()
+    cloob = ldr.load()
