@@ -58,9 +58,19 @@ class SBertClipLoader(BaseMmcLoader):
         img_model = SentenceTransformer('clip-ViT-B-32') # this should be identical to the model published by openai
         text_model = SentenceTransformer('sentence-transformers/clip-ViT-B-32-multilingual-v1')
 
+        # default behavior returns numpy arrays. converting to tensors for API consistency
+        def image_project_to_tensor(img):
+            return torch.tensor(img_model.encode(img)).to(device)
+        
+        def text_project_to_tensor(txt):
+            return torch.tensor(text_model.encode(txt)).to(device)
+
+        # To do: we have a 'preprocess' pattern, should add a 'postprocess' pattern too. 
+        # then instead of defining closures here, could just pass in TF.to_tensor()
+
         mmc = MultiModalComparator(name=str(self), device=device)
-        mmc.register_modality(modality=TEXT, projector=text_model.encode )#, preprocessor=tokenizer)
-        mmc.register_modality(modality=IMAGE, projector=img_model.encode )#, preprocessor=preprocess_image_extended)
+        mmc.register_modality(modality=TEXT, projector=text_project_to_tensor )#, preprocessor=tokenizer)
+        mmc.register_modality(modality=IMAGE, projector=image_project_to_tensor )#, preprocessor=preprocess_image_extended)
         mmc._model = img_model
         return mmc
 
