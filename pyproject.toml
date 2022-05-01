@@ -16,8 +16,9 @@ Pillow = "^9.1.0"
 kornia = "^0.6.4"
 open-clip-torch = "^0.2.1"
 declip = {git = "https://github.com/pytti-tools/DeCLIP", branch = "installable"}
-#cloob....
+kelip = {git = "https://github.com/navervision/KELIP.git", branch = "master"}
 sentence-transformers = "^2.2.0"
+napm="0.1.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
@@ -27,3 +28,8 @@ poethepoet = "^0.13.1"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+
+# https://github.com/nat-n/poethepoet
+[tool.poe.tasks]
+napm_installs = { "script" = "mmc.napm_installs:all" }
