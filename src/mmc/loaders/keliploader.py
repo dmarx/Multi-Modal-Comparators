@@ -24,7 +24,7 @@ class ClipKelipLoader(BaseMmcLoader):
     """
     def __init__(
         self,
-        id=='kelip_ViT-B/32',
+        id='kelip_ViT-B/32',
     ):
         self.architecture = 'clip' # should this be a type too?
         self.publisher = 'navervision'
