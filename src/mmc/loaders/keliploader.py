@@ -16,7 +16,7 @@ from ..registry import REGISTRY, register_model
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 
-class ClipFaLoader(BaseMmcLoader):
+#class ClipFaLoader(BaseMmcLoader):
 class ClipKelipLoader(BaseMmcLoader):
     """
     CLIP model trained for Korean and English languages
@@ -24,7 +24,7 @@ class ClipKelipLoader(BaseMmcLoader):
     """
     def __init__(
         self,
-        id,
+        id=='kelip_ViT-B/32',
     ):
         self.architecture = 'clip' # should this be a type too?
         self.publisher = 'navervision'
@@ -35,8 +35,8 @@ class ClipKelipLoader(BaseMmcLoader):
         Returns the MMC associated with this loader.
         """
         import kelip 
-
-        model, preprocess_img, tokenizer = kelip.build_model(self.id)
+        _id = self.id.replace('kelip_','')
+        model, preprocess_img, tokenizer = kelip.build_model(_id)
         
         mmc = MultiModalComparator(name=str(self), device=device)
         mmc.register_modality(modality=TEXT, projector=model.encode_text, preprocessor=tokenizer)
@@ -47,5 +47,5 @@ class ClipKelipLoader(BaseMmcLoader):
 
 register_model(
     #They don't have a systematic way for listing their weights it for now and only support ViT-B/32 
-    ClipKelipLoader(id='ViT-B/32')
+    ClipKelipLoader(id='kelip_ViT-B/32')
 )
