@@ -45,9 +45,8 @@ class MockOpenaiClip:
 
         if hasattr(mmc_object, '_model'):
             if hasattr(mmc_object._model, 'visual'):
-                #vision_args['input_resolution'] = mmc_object._model.visual.input_resolution
-                #vision_args['output_dim'] = mmc_object._model.visual.output_dim
-                self.visual = mmc_object._model.visual
+                if hasattr(mmc_object._model.visual, 'input_resolution'):
+                    self.visual = mmc_object._model.visual
 
         if not hasattr(self, 'visual'):
             self.visual = MockVisionModel(**vision_args)
