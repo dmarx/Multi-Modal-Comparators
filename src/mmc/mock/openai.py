@@ -43,16 +43,29 @@ class MockOpenaiClip:
                 vision_args['input_resolution']
                 )
 
-        self.vision = MockVisionModel(**vision_args)
+        if hasattr(mmc_object, '_model'):
+            if hasattr(mmc_object._model, 'visual'):
+                #vision_args['input_resolution'] = mmc_object._model.visual.input_resolution
+                #vision_args['output_dim'] = mmc_object._model.visual.output_dim
+                self.visual = mmc_object._model.visual
+
+        if not hasattr(self, 'visual'):
+            self.visual = MockVisionModel(**vision_args)
     
     def encode_image(
         self, 
         image: torch.Tensor,
     ) -> torch.Tensor:
-        return self.mmc_object.project_image(image)
+        #return self.mmc_object.project_image(image)
+        # bypass pre-processor
+        project = self.mmc_object.modes['image']['projector']
+        return project(image)
 
     def encode_text(
         self,
         text: torch.Tensor,
     ) -> torch.Tensor:
-        return self.mmc_object.project_text(text)
+        #return self.mmc_object.project_text(text)
+        # bypass pre-processor
+        project = self.mmc_object.modes['text']['projector']
+        return project(text)
