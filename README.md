@@ -129,7 +129,7 @@ my_model = my_model_loader.load()
 model = MockOpenaiClip(my_model)
 ```
 
-# Supported models
+# Available Pre-trained Models
 
 ```
 # [<architecture> - <publisher> - <id>]
