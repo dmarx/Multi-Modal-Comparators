@@ -50,3 +50,11 @@ def test_load_kelip():
     from mmc.loaders import ClipKelipLoader
     ldr = ClipKelipLoader()
     kelip = ldr.load()
+
+def test_load_fairslip_yfcc15m():
+    from mmc.loaders.fairsliploader import FairSlipLoader_YFCC15M
+    ldr = FairSlipLoader_YFCC15M(
+        architecture='slip',
+        id='slip_small_100ep',
+    )
+    slip = ldr.load()
