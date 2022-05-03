@@ -173,4 +173,16 @@ model = MockOpenaiClip(my_model)
 [cloob - crowsonkb - cloob_laion_400m_vit_b_16_32_epochs]
 ```
 
+# How to contribute pre-trained models
+
+If you would like to suggest a pre-trained model for future addition, you can add a comment to [this issue](https://github.com/dmarx/Multi-Modal-Comparators/issues/2)
+
+1. Create a loader class that encapsulates the logic for importing the model, loading weights, preprocessing inputs, and performing projections. 
+2. At the bottom of the file defining the loader class should be a code snippet that adds each respective checkpoint's loader to the registry.
+3. Add an import for the new file to `mmc/loaders/__init__.py`. The imports in this file are the reason `import mmc.loaders` "spins up" the registry.
+4. If the codebase on which the model depends can be installed, update `pytproject.toml` to install it.
+5. Otherwise, add napm preparation at the top of the loaders `load` method (see cloob or kelip for examples), and also add napm setup to `mmc/napm_installs/__init__.py`
+6. Add a test case to tests/test_mmc_loaders.py
+7. Add a test script for the loader (see `test_mmc_katcloob` as an example)
+
 
