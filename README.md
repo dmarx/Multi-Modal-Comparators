@@ -129,5 +129,48 @@ my_model = my_model_loader.load()
 model = MockOpenaiClip(my_model)
 ```
 
+# Supported models
+
+```
+# [<architecture> - <publisher> - <id>]
+[clip - openai - RN50]
+[clip - openai - RN101]
+[clip - openai - RN50x4]
+[clip - openai - RN50x16]
+[clip - openai - RN50x64]
+[clip - openai - ViT-B/32]
+[clip - openai - ViT-B/16]
+[clip - openai - ViT-L/14]
+[clip - openai - ViT-L/14@336px]
+[clip - mlfoundations - RN50--openai]
+[clip - mlfoundations - RN50--yfcc15m]
+[clip - mlfoundations - RN50--cc12m]
+[clip - mlfoundations - RN50-quickgelu--openai]
+[clip - mlfoundations - RN50-quickgelu--yfcc15m]
+[clip - mlfoundations - RN50-quickgelu--cc12m]
+[clip - mlfoundations - RN101--openai]
+[clip - mlfoundations - RN101--yfcc15m]
+[clip - mlfoundations - RN101-quickgelu--openai]
+[clip - mlfoundations - RN101-quickgelu--yfcc15m]
+[clip - mlfoundations - RN50x4--openai]
+[clip - mlfoundations - RN50x16--openai]
+[clip - mlfoundations - ViT-B-32--openai]
+[clip - mlfoundations - ViT-B-32--laion400m_e31]
+[clip - mlfoundations - ViT-B-32--laion400m_e32]
+[clip - mlfoundations - ViT-B-32--laion400m_avg]
+[clip - mlfoundations - ViT-B-32-quickgelu--openai]
+[clip - mlfoundations - ViT-B-32-quickgelu--laion400m_e31]
+[clip - mlfoundations - ViT-B-32-quickgelu--laion400m_e32]
+[clip - mlfoundations - ViT-B-32-quickgelu--laion400m_avg]
+[clip - mlfoundations - ViT-B-16--openai]
+[clip - mlfoundations - ViT-L-14--openai]
+[clip - sbert - ViT-B-32-multilingual-v1]
+[clip - sajjjadayobi - clipfa]
+
+# The following models depend on napm for setup
+[clip - navervision - kelip_ViT-B/32]
+[cloob - crowsonkb - cloob_laion_400m_vit_b_16_16_epochs]
+[cloob - crowsonkb - cloob_laion_400m_vit_b_16_32_epochs]
+```
 
 
