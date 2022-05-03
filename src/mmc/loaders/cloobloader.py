@@ -5,9 +5,8 @@ https://github.com/crowsonkb/cloob-training
 """
 
 # importing this first is necessary for cloob to be available
-import napm 
+import napm
 
-from cloob.cloob_training import pretrained # this should probably be isolated somehow
 from loguru import logger
 import torch
 
@@ -42,6 +41,10 @@ class KatCloobLoader(BaseMmcLoader):
         """
         Returns the MMC associated with this loader.
         """
+        logger.debug('using napm to "install" katCLOOB')
+        url = "https://github.com/crowsonkb/cloob-training"
+        napm.pseudoinstall_git_repo(url, env_name='mmc', package_name='cloob')
+        napm.populate_pythonpaths('mmc')
         from cloob.cloob_training import model_pt, pretrained
         
         config = pretrained.get_config(self.id)
@@ -65,7 +68,14 @@ class KatCloobLoader(BaseMmcLoader):
         mmc._model = model
         return mmc
 
-for model_name in pretrained.list_configs():
-    register_model(
-        KatCloobLoader(id=model_name)
+try:
+    from cloob.cloob_training import model_pt, pretrained
+    for model_name in pretrained.list_configs():
+        register_model(
+            KatCloobLoader(id=model_name)
+        )
+except:
+    logger.warning(
+        "unable to import cloob: bypassing loader registration. You can still isntall and load cloob via:"
+        "`model = KatCloobLoader(id=...).load()`"
     )
