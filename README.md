@@ -173,9 +173,13 @@ model = MockOpenaiClip(my_model)
 [cloob - crowsonkb - cloob_laion_400m_vit_b_16_32_epochs]
 ```
 
-# How to contribute pre-trained models
+# Contributing
+
+## Suggest a pre-trained model
 
 If you would like to suggest a pre-trained model for future addition, you can add a comment to [this issue](https://github.com/dmarx/Multi-Modal-Comparators/issues/2)
+
+## Add a pre-trained model
 
 1. Create a loader class that encapsulates the logic for importing the model, loading weights, preprocessing inputs, and performing projections. 
 2. At the bottom of the file defining the loader class should be a code snippet that adds each respective checkpoint's loader to the registry.
