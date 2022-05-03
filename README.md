@@ -3,6 +3,8 @@
 # installation
 
 ```
+git clone https://github.com/dmarx/Multi-Modal-Comparators
+cd 'Multi-Modal-Comparators'
 pip install poetry
 poetry build
 pip install dist/mmc*.whl
