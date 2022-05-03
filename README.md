@@ -19,15 +19,20 @@ To see which models are immediately available, run:
 python -m mmc.loaders
 ```
 
-## That optional `poe napm_installs` thing
+### That optional `poe napm_installs` step
+
+For the most convenient experience, it is recommended that you perform the final `poe napm_installs` step. 
+Omitting this step will make your one-time setup faster, but will make certain use cases more complex.
 
 If you did not perform the optional `poe napm_installs` step, you likely received several warnings about 
 models whose loaders could not be registered. These are models whose codebases depend on python code which
-is not trivially installable. Skipping the optional last step will result in a faster installation. You will
-still have access to all of the models supported by the library if you had run the last step, but they will
-not be queryable and will need to be loaded using their mmc.loader directly. 
+is not trivially installable. You will still have access to all of the models supported by the library as if 
+you had run the last step, but their loaders will not be queryable from the registry (see below) and will need 
+to be loaded via the appropriate mmc.loader directly, which may be non-trivial to identify without the ability to 
+query it from mmc's registry. 
 
-As a concrete example, the model `[cloob - corwsonkb - cloob_laion_400m_vit_b_16_32_epochs]` will not appear in the list of registered loaders, but can be loaded like this:
+As a concrete example, if the napm step is skipped, the model `[cloob - corwsonkb - cloob_laion_400m_vit_b_16_32_epochs]` 
+will not appear in the list of registered loaders, but can still be loaded like this:
 
 ```
 from mmc.loaders import KatCloobLoader
@@ -35,9 +40,10 @@ from mmc.loaders import KatCloobLoader
 model = KatCloobLoader(id='cloob_laion_400m_vit_b_16_32_epochs').load()
 ```
 
-Invoking the `load()` method on an unregistered loader will also invoke napm to prepare any uninstallable 
-dependencies required to load the model. Next time you run `python -m mmc.loaders`, the CLOOB loader would
-show as registered and no longer emit a warning for that model.
+Invoking the `load()` method on an unregistered loader will invoke [napm](https://github.com/dmarx/not-a-package-manager) 
+to prepare any uninstallable dependencies required to load the model. Next time you run `python -m mmc.loaders`, 
+the CLOOB loader will show as registered and spinning up the registry will longer emit a warning for that model.
+
 
 # Usage
 
