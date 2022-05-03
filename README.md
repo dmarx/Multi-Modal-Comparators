@@ -19,6 +19,8 @@ To see which models are immediately available, run:
 python -m mmc.loaders
 ```
 
+## That optional `poe napm_installs` thing
+
 If you did not perform the optional `poe napm_installs` step, you likely received several warnings about 
 models whose loaders could not be registered. These are models whose codebases depend on python code which
 is not trivially installable. Skipping the optional last step will result in a faster installation. You will
