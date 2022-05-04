@@ -228,6 +228,58 @@ The MultiMMC does not support API mocking because of its reliance on the `compar
 [slip - facebookresearch - slip_base_cc12m_35ep]
 ```
 
+# VRAM Cost
+
+The following is an estimate of the amount of space the loaded model occupies in memory:
+
+|    | publisher        | architecture   | model_name                          |   vram_mb |
+|---:|:-----------------|:---------------|:------------------------------------|----------:|
+|  0 | openai           | clip           | RN50                                |       358 |
+|  1 | openai           | clip           | RN101                               |       294 |
+|  2 | openai           | clip           | RN50x4                              |       424 |
+|  3 | openai           | clip           | RN50x16                             |       660 |
+|  4 | openai           | clip           | RN50x64                             |      1350 |
+|  5 | openai           | clip           | ViT-B/32                            |       368 |
+|  6 | openai           | clip           | ViT-B/16                            |       348 |
+|  7 | openai           | clip           | ViT-L/14                            |       908 |
+|  8 | openai           | clip           | ViT-L/14@336px                      |       908 |
+|  9 | mlfoundations    | clip           | RN50--openai                        |       402 |
+| 10 | mlfoundations    | clip           | RN50--yfcc15m                       |       402 |
+| 11 | mlfoundations    | clip           | RN50--cc12m                         |       402 |
+| 12 | mlfoundations    | clip           | RN50-quickgelu--openai              |       402 |
+| 13 | mlfoundations    | clip           | RN50-quickgelu--yfcc15m             |       402 |
+| 14 | mlfoundations    | clip           | RN50-quickgelu--cc12m               |       402 |
+| 15 | mlfoundations    | clip           | RN101--openai                       |       476 |
+| 16 | mlfoundations    | clip           | RN101--yfcc15m                      |       476 |
+| 17 | mlfoundations    | clip           | RN101-quickgelu--openai             |       476 |
+| 18 | mlfoundations    | clip           | RN101-quickgelu--yfcc15m            |       476 |
+| 19 | mlfoundations    | clip           | RN50x4--openai                      |       732 |
+| 20 | mlfoundations    | clip           | RN50x16--openai                     |      1200 |
+| 21 | mlfoundations    | clip           | ViT-B-32--openai                    |       634 |
+| 22 | mlfoundations    | clip           | ViT-B-32--laion400m_e31             |       634 |
+| 23 | mlfoundations    | clip           | ViT-B-32--laion400m_e32             |       634 |
+| 24 | mlfoundations    | clip           | ViT-B-32--laion400m_avg             |       634 |
+| 25 | mlfoundations    | clip           | ViT-B-32-quickgelu--openai          |       634 |
+| 26 | mlfoundations    | clip           | ViT-B-32-quickgelu--laion400m_e31   |       634 |
+| 27 | mlfoundations    | clip           | ViT-B-32-quickgelu--laion400m_e32   |       634 |
+| 28 | mlfoundations    | clip           | ViT-B-32-quickgelu--laion400m_avg   |       634 |
+| 29 | mlfoundations    | clip           | ViT-B-16--openai                    |       634 |
+| 30 | mlfoundations    | clip           | ViT-L-14--openai                    |      1688 |
+| 32 | sajjjadayobi     | clip           | clipfa                              |       866 |
+| 33 | crowsonkb        | cloob          | cloob_laion_400m_vit_b_16_16_epochs |       610 |
+| 34 | crowsonkb        | cloob          | cloob_laion_400m_vit_b_16_32_epochs |       610 |
+| 36 | facebookresearch | slip           | slip_small_25ep                     |       728 |
+| 37 | facebookresearch | slip           | slip_small_50ep                     |       650 |
+| 38 | facebookresearch | slip           | slip_small_100ep                    |       650 |
+| 39 | facebookresearch | slip           | slip_base_25ep                      |       714 |
+| 40 | facebookresearch | slip           | slip_base_50ep                      |       714 |
+| 41 | facebookresearch | slip           | slip_base_100ep                     |       714 |
+| 42 | facebookresearch | slip           | slip_large_25ep                     |      1534 |
+| 43 | facebookresearch | slip           | slip_large_50ep                     |      1522 |
+| 44 | facebookresearch | slip           | slip_large_100ep                    |      1522 |
+| 45 | facebookresearch | slip           | slip_base_cc3m_40ep                 |       714 |
+| 46 | facebookresearch | slip           | slip_base_cc12m_35ep                |       714 |
+
 # Contributing
 
 ## Suggest a pre-trained model
