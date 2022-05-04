@@ -77,7 +77,7 @@ class MultiMMC(MultiModalComparator):
             outv = (outv, projections)
         return outv
     def _reduce_projections(self, projections, return_raw_scores=False):
-        logger.debug(projections)
+        #logger.debug(projections)
         accumulator = 0
         raw_scores = {}
         # this is hideous and should be trivially vectorizable. 
