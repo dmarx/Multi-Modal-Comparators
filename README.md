@@ -129,6 +129,41 @@ my_model = my_model_loader.load()
 model = MockOpenaiClip(my_model)
 ```
 
+## MultiMMC: Multi-Perceptor Implementation
+
+The `MultiMMC` class can be used to run inference against multiple mmc models in parallel. This form of 
+ensemble is sometimes referred to as a "multi-perceptor".
+
+To ensure that all models loaded into the MultiMMC are compatible, the MultiMMC instance is initialized
+by specifying the modalities it supports. We'll discuss modality objects in a bit.
+
+```
+from mmc.multimmc import MultiMMC
+from mmc.modalities import TEXT, IMAGE
+
+perceptor = MultiMMC(TEXT, IMAGE)
+```
+
+To load and use a model:
+
+```
+perceptor.load_model(
+    architecture='clip', 
+    publisher='openai', 
+    id='RN50',
+)
+
+score = perceptor.compare(
+    image=PIL.Image.open(...), 
+    text=text_pos),
+)
+```
+
+Additional models can be added to the ensemble via the `load_model()` method.
+
+The MultiMMC does not support API mocking because of its reliance on the `compare` method.
+
+
 # Available Pre-trained Models
 
 ```
