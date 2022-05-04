@@ -18,7 +18,7 @@ open-clip-torch = "^0.2.1"
 declip = {git = "https://github.com/pytti-tools/DeCLIP", branch = "installable"}
 kelip = {git = "https://github.com/navervision/KELIP.git", branch = "master"}
 sentence-transformers = "^2.2.0"
-napm="^0.1.1"
+napm="^0.2.0"
 timm="^0.5.4"
 
 [tool.poetry.dev-dependencies]
