@@ -221,6 +221,10 @@ The MultiMMC does not support API mocking because of its reliance on the `compar
 [simclr - facebookresearch - simclr_small_25ep]
 [simclr - facebookresearch - simclr_base_25ep]
 [simclr - facebookresearch - simclr_large_25ep]
+[clip - facebookresearch - clip_base_cc3m_40ep]
+[clip - facebookresearch - clip_base_cc12m_35ep]
+[slip - facebookresearch - slip_base_cc3m_40ep]
+[slip - facebookresearch - slip_base_cc12m_35ep]
 ```
 
 # Contributing
