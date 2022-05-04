@@ -3,7 +3,7 @@
 Loaders for pretrained CLOOB model by crowsonkb
 https://github.com/crowsonkb/cloob-training
 """
-
+from collections import OrderedDict
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -49,7 +49,7 @@ if TYPE_CHECKING:
 
 #url_template = "https://dl.fbaipublicfiles.com/slip/{arch}_{size}_{eps}ep.pt"
 # let's use "{arch}_{size}_{eps}ep" as the id
-
+ 
 def parse_id(slip_id: str):
     arch, size, eps = slip_id.split('_')
     return arch, size, eps
@@ -137,7 +137,7 @@ def download(url, fpath):
     if not Path(fpath).exists():
         raise FileNotFoundError(f"Download failed: {url}")
 
-def fix_param_names(ckpt):
+def fix_param_names_old(ckpt):
     """
     Takes a checkpoint dictionary and removes the "module" prefix from the keys in the state_dict
     
@@ -153,6 +153,12 @@ def fix_param_names(ckpt):
     del ckpt['state_dict']
     ckpt['state_dict'] = real_sd
 
+def fix_param_names(ckpt):
+    # via https://github.com/pixray/pixray/blob/master/slip.py#L127-L128
+    state_dict = OrderedDict()
+    for k, v in ckpt['state_dict'].items():
+        state_dict[k.replace('module.', '')] = v
+    ckpt['state_dict'] = state_dict
 
 
 #######################################################################################################################
@@ -222,8 +228,9 @@ class FairSlipLoader_YFCC15M(FairSlipLoaderBase):
         d_args = vars(ckpt['args'])
         kwargs = {k:d_args[k] for k in ('ssl_emb_dim', 'ssl_mlp_dim') if k in d_args}
         logger.debug(kwargs)
-        #fix_param_names(ckpt)
-        model = model_factory(**kwargs).load_state_dict(ckpt['state_dict'])
+        fix_param_names(ckpt)
+        model = model_factory(**kwargs)
+        model.load_state_dict(ckpt['state_dict'], strict=True)
 
         from SLIP.tokenizer import SimpleTokenizer
         tokenizer = SimpleTokenizer()
@@ -234,11 +241,32 @@ class FairSlipLoader_YFCC15M(FairSlipLoaderBase):
                 logger.debug("adding batch dimension")
                 x = x.unsqueeze(0)
             return x
-
+        logger.debug(model)
         mmc = MultiModalComparator(name=str(self), device=device)
-        mmc.register_modality(modality=TEXT, projector=model.text_encoder, preprocessor=tokenizer)
-        mmc.register_modality(modality=IMAGE, projector=model.image_encoder, preprocessor= preprocess_image_extended)
+        mmc.register_modality(modality=TEXT, projector=model.encode_text, preprocessor=tokenizer)
+        mmc.register_modality(modality=IMAGE, projector=model.encode_image, preprocessor= preprocess_image_extended)
         mmc._model = model
         return mmc
 
 # To do: register models
+
+# ViT-Small (MoCo v3 version w/ 12 vs. 6 heads)
+model_ids = [
+    'clip_small_25ep',
+    'simclr_small_25ep',
+    'slip_small_25ep',
+    'slip_small_50ep',
+    'slip_small_100ep',
+    'clip_base_25ep',
+    'simclr_base_25ep',
+    'slip_base_25ep',
+    'slip_base_50ep',
+    'slip_base_100ep',
+    'clip_large_25ep',
+    'simclr_large_25ep',
+    'slip_large_25ep',
+    'slip_large_50ep',
+    'slip_large_100ep',
+]
+
+#for mid in model_ids:
