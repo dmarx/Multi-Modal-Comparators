@@ -1,12 +1,15 @@
 import pytest
-from mmc.loaders import FairSlipLoader_YFCC15M as loader
+from mmc.loaders import FairSlipLoader_CC3M as loader
 import PIL
 from loguru import logger
 import torch
 
 
-#loader_args = {'id':'RN50--cc12m'}
-loader_args = {}
+loader_args = {
+    'id': 'slip_base_cc3m_40ep',
+    'architecture': 'slip',
+}
+
 
 def test_project_text():
     ldr = loader(**loader_args)
