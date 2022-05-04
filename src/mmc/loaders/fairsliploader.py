@@ -5,6 +5,7 @@ https://github.com/crowsonkb/cloob-training
 """
 from collections import OrderedDict
 from pathlib import Path
+from platform import architecture
 from typing import TYPE_CHECKING
 
 from loguru import logger
@@ -16,7 +17,7 @@ from torchvision import transforms
 from .basemmcloader import BaseMmcLoader
 from ..modalities import TEXT, IMAGE
 from ..multimodalcomparator import MultiModalComparator
-from ..registry import REGISTRY, register_model
+from ..registry import register_model
 
 
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -241,7 +242,7 @@ class FairSlipLoader_YFCC15M(FairSlipLoaderBase):
                 logger.debug("adding batch dimension")
                 x = x.unsqueeze(0)
             return x
-        logger.debug(model)
+        #logger.debug(model)
         mmc = MultiModalComparator(name=str(self), device=device)
         mmc.register_modality(modality=TEXT, projector=model.encode_text, preprocessor=tokenizer)
         mmc.register_modality(modality=IMAGE, projector=model.encode_image, preprocessor= preprocess_image_extended)
@@ -269,4 +270,11 @@ model_ids = [
     'slip_large_100ep',
 ]
 
-#for mid in model_ids:
+for mid in model_ids:
+    arch, _, _ = mid.split('_')
+    register_model(
+        FairSlipLoader_YFCC15M(
+            id=mid,
+            architecture=arch,
+        )
+    )
