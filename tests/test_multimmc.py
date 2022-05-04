@@ -62,3 +62,31 @@ def test_compare_text2img():
     v_neg = perceptor.compare(image=img, text=text_neg)
     logger.debug((v_pos, v_neg))
     assert v_pos > v_neg
+
+
+def test_multi_same_publisher_and_arch():
+    from mmc.multimmc import MultiMMC
+    from mmc.modalities import TEXT, IMAGE
+    
+    perceptor = MultiMMC(TEXT, IMAGE)
+    models = [
+        dict(
+            architecture='clip', 
+            publisher='openai', 
+            id='RN50',
+        ),
+        dict(
+            architecture='clip', 
+            publisher='openai', 
+            id='ViT-B/32',
+    )]
+    for m in models:
+        perceptor.load_model(**m)
+    
+    text_pos = "a photo of a dog"
+    text_neg = "a painting of a cat"
+    img = PIL.Image.open('./tests/assets/marley_birthday.jpg').resize((250,200))
+    v_pos = perceptor.compare(image=img, text=text_pos)
+    v_neg = perceptor.compare(image=img, text=text_neg)
+    logger.debug((v_pos, v_neg))
+    assert v_pos > v_neg
