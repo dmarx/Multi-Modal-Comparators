@@ -77,6 +77,11 @@ class MultiModalComparator:
             item = item.to(self.device)
         except:
             pass
+        #logger.debug(item.shape)
+        #logger.debug(item.ndim)
+        if item.ndim == 1:
+            item = item.unsqueeze(0)
+        
         return project(item)
 
     @property
