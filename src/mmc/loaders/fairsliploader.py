@@ -173,6 +173,7 @@ class FairSlipLoaderBase(BaseMmcLoader):
         fix_param_names(ckpt)
         model = model_factory(**kwargs)
         model.load_state_dict(ckpt['state_dict'], strict=True)
+        model = model.eval().to(device)
 
         from SLIP.tokenizer import SimpleTokenizer
         tokenizer = SimpleTokenizer()
@@ -182,7 +183,7 @@ class FairSlipLoaderBase(BaseMmcLoader):
             if x.ndim == 3:
                 logger.debug("adding batch dimension")
                 x = x.unsqueeze(0)
-            return x
+            return x.to(device)
         #logger.debug(model)
         mmc = MultiModalComparator(name=str(self), device=device)
         mmc.register_modality(modality=TEXT, projector=model.encode_text, preprocessor=tokenizer)
