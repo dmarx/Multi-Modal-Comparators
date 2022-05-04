@@ -171,6 +171,21 @@ model = MockOpenaiClip(my_model)
 [clip - navervision - kelip_ViT-B/32]
 [cloob - crowsonkb - cloob_laion_400m_vit_b_16_16_epochs]
 [cloob - crowsonkb - cloob_laion_400m_vit_b_16_32_epochs]
+[clip - facebookresearch - clip_small_25ep]
+[clip - facebookresearch - clip_base_25ep]
+[clip - facebookresearch - clip_large_25ep]
+[slip - facebookresearch - slip_small_25ep]
+[slip - facebookresearch - slip_small_50ep]
+[slip - facebookresearch - slip_small_100ep]
+[slip - facebookresearch - slip_base_25ep]
+[slip - facebookresearch - slip_base_50ep]
+[slip - facebookresearch - slip_base_100ep]
+[slip - facebookresearch - slip_large_25ep]
+[slip - facebookresearch - slip_large_50ep]
+[slip - facebookresearch - slip_large_100ep]
+[simclr - facebookresearch - simclr_small_25ep]
+[simclr - facebookresearch - simclr_base_25ep]
+[simclr - facebookresearch - simclr_large_25ep]
 ```
 
 # Contributing
