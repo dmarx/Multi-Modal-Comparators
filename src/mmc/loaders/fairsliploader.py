@@ -39,11 +39,11 @@ val_transform = transforms.Compose([
 # let's use "{arch}_{size}_{eps}ep" as the id
  
 def parse_id(slip_id: str):
-    arch, size, eps = slip_id.split('_')
-    return arch, size, eps
+    arch, size, *_ = slip_id.split('_')
+    return arch, size
 
 def loader_name_from_id(slip_id: str):
-    arch, size, eps = parse_id(slip_id)
+    arch, size = parse_id(slip_id)
     name_str = f"{arch.upper()}_VIT{size[0].upper()}16"
     return name_str
 
