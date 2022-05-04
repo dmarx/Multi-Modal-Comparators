@@ -10,7 +10,8 @@ poetry build
 pip install dist/mmc*.whl
 
 # optional final step:
-poe napm_installs
+#poe napm_installs
+python src/mmc/napm_installs/__init__.py
 ```
 
 To see which models are immediately available, run:
