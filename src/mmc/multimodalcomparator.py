@@ -79,7 +79,7 @@ class MultiModalComparator:
             pass
         #logger.debug(item.shape)
         #logger.debug(item.ndim)
-        if item.ndim == 1:
+        if hasattr(item, 'ndim') and (item.ndim == 1):
             item = item.unsqueeze(0)
         
         return project(item)
