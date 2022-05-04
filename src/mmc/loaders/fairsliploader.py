@@ -25,28 +25,15 @@ DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 if TYPE_CHECKING:
     import PIL
 
-# The following models are pre-trained on YFCC15M and evaluated on ImageNet-1K (ILSVRC2012).
 
-# ViT-Small (MoCo v3 version w/ 12 vs. 6 heads)
-# https://dl.fbaipublicfiles.com/slip/clip_small_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/simclr_small_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_small_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_small_50ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_small_100ep.pt
+val_transform = transforms.Compose([
+        transforms.Resize(224),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                             std=[0.229, 0.224, 0.225])
+    ])
 
-# ViT-Base - SLIP_VITB16
-# https://dl.fbaipublicfiles.com/slip/clip_base_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/simclr_base_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_base_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_base_50ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_base_100ep.pt
-
-# ViT-Large - SLIP_VITL16
-# https://dl.fbaipublicfiles.com/slip/clip_large_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/simclr_large_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_large_25ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_large_50ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_large_100ep.pt
 
 #url_template = "https://dl.fbaipublicfiles.com/slip/{arch}_{size}_{eps}ep.pt"
 # let's use "{arch}_{size}_{eps}ep" as the id
@@ -78,31 +65,6 @@ def url_from_id(slip_id: str):
 def id_from_url(url):
     fname = url.split('/')[-1]
     return fname.split('.')[0]
-
-
-
-
-#######################################################################################################################
-
-# CC3M
-# https://dl.fbaipublicfiles.com/slip/clip_base_cc3m_40ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_base_cc3m_40ep.pt
-
-# CC12M
-# https://dl.fbaipublicfiles.com/slip/clip_base_cc12m_35ep.pt
-# https://dl.fbaipublicfiles.com/slip/slip_base_cc12m_35ep.pt
-
-#######################################################################################################################
-
-# from SLIP.models import SLIP, SLIP_VITS16, SLIP_VITB16, SLIP_VITL16
-# from SLIP.models import CLIP, CLIP_VITS16, CLIP_VITB16, CLIP_VITL16
-# from SLIP.models import SIMCLR, SIMCLR_VITS16, SIMCLR_VITB16
-
-
-
-# new dependencies (maybe)
-# - timm
-
 
 
 def fetch_weights(url, namespace, device=DEVICE):
@@ -190,28 +152,7 @@ class FairSlipLoaderBase(BaseMmcLoader):
             SLIP_VITB16, 
             SLIP_VITL16
             )
-        #from SLIP.tokenizer import SimpleTokenizer
 
-
-val_transform = transforms.Compose([
-        transforms.Resize(224),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
-    ])
-
-class FairSlipLoader_YFCC15M(FairSlipLoaderBase):
-    """
-    SLIP models via https://github.com/facebookresearch/SLIP
-    """
-    def __init__(
-        self,
-        id,
-        architecture,
-    ):
-        super().__init__(id, architecture)
-        self.dataset = 'YFCC15M'
     def load(self, device=DEVICE):
         """
         Returns the MMC associated with this loader.
@@ -249,6 +190,47 @@ class FairSlipLoader_YFCC15M(FairSlipLoaderBase):
         mmc._model = model
         return mmc
 
+
+class FairSlipLoader_YFCC15M(FairSlipLoaderBase):
+    """
+    SLIP models via https://github.com/facebookresearch/SLIP
+    """
+    def __init__(
+        self,
+        id,
+        architecture,
+    ):
+        super().__init__(id, architecture)
+        self.dataset = 'YFCC15M'
+
+
+class FairSlipLoader_CC3M(FairSlipLoaderBase):
+    """
+    SLIP models via https://github.com/facebookresearch/SLIP
+    """
+    def __init__(
+        self,
+        id,
+        architecture,
+    ):
+        super().__init__(id, architecture)
+        self.dataset = 'CC3M'
+
+
+class FairSlipLoader_CC12M(FairSlipLoaderBase):
+    """
+    SLIP models via https://github.com/facebookresearch/SLIP
+    """
+    def __init__(
+        self,
+        id,
+        architecture,
+    ):
+        super().__init__(id, architecture)
+        self.dataset = 'CC12M'
+
+
+
 # To do: register models
 
 # ViT-Small (MoCo v3 version w/ 12 vs. 6 heads)
@@ -278,3 +260,34 @@ for mid in model_ids:
             architecture=arch,
         )
     )
+
+
+model_ids_cc3m = [
+    'clip_base_cc3m_40ep',
+    'slip_base_cc3m_40ep',
+]
+
+for mid in model_ids_cc3m:
+    arch, _, _, _ = mid.split('_')
+    register_model(
+        FairSlipLoader_CC3M(
+            id=mid,
+            architecture=arch,
+        )
+    )
+
+
+model_ids_cc12m = [
+    'clip_base_cc12m_35ep',
+    'slip_base_cc12m_35ep',
+]
+
+for mid in model_ids_cc12m:
+    arch, _, _, _ = mid.split('_')
+    register_model(
+        FairSlipLoader_CC12M(
+            id=mid,
+            architecture=arch,
+        )
+    )
+
