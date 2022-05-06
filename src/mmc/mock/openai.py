@@ -2,7 +2,6 @@
 API Mocks for models published by OpenAI
 """
 
-from turtle import width
 import torch
 from dataclasses import dataclass
 
