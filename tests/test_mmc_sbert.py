@@ -15,16 +15,16 @@ def test_project_text():
     ldr = loader(**loader_args)
     perceptor = ldr.load()
     projection = perceptor.project_text("foo bar baz")
-    print(type(projection))
     assert isinstance(projection, torch.Tensor)
+    logger.debug(projection.shape)
 
 def test_project_img():
     ldr = loader(**loader_args)
     perceptor = ldr.load()
     img = PIL.Image.open("./tests/assets/marley_birthday.jpg").resize((250,200))
     projection = perceptor.project_image(img)
-    print(type(projection))
     assert isinstance(projection, torch.Tensor)
+    logger.debug(projection.shape)
 
 def test_supported_modalities():
     ldr = loader(**loader_args)

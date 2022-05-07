@@ -1,6 +1,8 @@
 import pytest
-
+from loguru import logger
 import mmc
+import PIL
+import torch
 
 def test_oai_mocking_itself():
     from mmc.mock.openai import MockOpenaiClip
@@ -19,6 +21,57 @@ def test_mlf_mocking_oai():
     mlf_clip = ldr.load()
     model = MockOpenaiClip(mlf_clip)
     assert model.visual.input_resolution == 224
+
+
+class TestMlfVitb16plus:
+
+    loader_args = {'id':'ViT-B-16-plus-240--laion400m_e32'}
+
+    def test_mock_oai(self):
+        from mmc.mock.openai import MockOpenaiClip
+        from mmc.loaders import MlfClipLoader
+
+        ldr = MlfClipLoader(**self.loader_args)
+        mlf_clip = ldr.load()
+        model = MockOpenaiClip(mlf_clip)
+        #assert model.visual.input_resolution == 224
+        assert model.visual.input_resolution == 240
+
+    def test_project_text(self):
+        from mmc.mock.openai import MockOpenaiClip
+        from mmc.loaders import MlfClipLoader
+        #from clip.simple_tokenizer import SimpleTokenizer
+        import clip
+
+        ldr = MlfClipLoader(**self.loader_args)
+        mlf_clip = ldr.load()
+        model = MockOpenaiClip(mlf_clip)
+        tokens = clip.tokenize("foo bar baz")
+        projection = model.encode_text(tokens)
+        assert isinstance(projection, torch.Tensor)
+        logger.debug(projection.shape)
+    
+    def test_project_img(self):
+        from mmc.mock.openai import MockOpenaiClip
+        from mmc.loaders import MlfClipLoader
+
+        ldr = MlfClipLoader(**self.loader_args)
+        mlf_clip = ldr.load()
+        model = MockOpenaiClip(mlf_clip)
+        #img = PIL.Image.open("./tests/assets/marley_birthday.jpg").resize((300,300))
+        img = torch.rand(1,3,300,300) # batch x channels x height x width
+        projection = model.encode_image(img)
+        assert isinstance(projection, torch.Tensor)
+        logger.debug(projection.shape)
+
+
+
+
+
+
+
+
+
 
 # what even is my expected behavior here? It passes the test but, I'm not sure how I'd even use this.
 # maybe this should throw an error?
