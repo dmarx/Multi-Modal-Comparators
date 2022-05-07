@@ -28,11 +28,14 @@ class MlfClipLoader(BaseMmcLoader):
     def __init__(
         self,
         id,
+        metadata=None,
     ):
         self.architecture = 'clip' # should this be a type too?
         self.publisher = 'mlfoundations'
         self.id = id
         self.modalities = (TEXT, IMAGE)
+        self.metadata = {} if metadata is None else metadata
+
     def load(self, device=DEVICE):
         """
         Returns the MMC associated with this loader.
@@ -63,6 +66,11 @@ class MlfClipLoader(BaseMmcLoader):
 
 
 for model_name, dataset in open_clip.list_pretrained():
+    metadata = {}
+    if model_name == "ViT-B-16-plus-240":
+        metadata['input_resolution'] = 240
     register_model(
-        MlfClipLoader(id=f"{model_name}--{dataset}")
+        MlfClipLoader(
+            id=f"{model_name}--{dataset}",
+            metadata=metadata),
     )
