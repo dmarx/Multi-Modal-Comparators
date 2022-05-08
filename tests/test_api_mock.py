@@ -4,6 +4,7 @@ import mmc
 import PIL
 import torch
 
+
 def test_oai_mocking_itself():
     from mmc.mock.openai import MockOpenaiClip
     from mmc.loaders import OpenAiClipLoader
@@ -12,6 +13,7 @@ def test_oai_mocking_itself():
     oai_clip = ldr.load()
     model = MockOpenaiClip(oai_clip)
     assert model.visual.input_resolution == 224
+
 
 def test_mlf_mocking_oai():
     from mmc.mock.openai import MockOpenaiClip
@@ -34,8 +36,8 @@ class TestMlfVitb16plus:
         ldr = MlfClipLoader(**self.loader_args)
         mlf_clip = ldr.load()
         model = MockOpenaiClip(mlf_clip)
-        #assert model.visual.input_resolution == 224
         assert model.visual.input_resolution == 240
+
 
     def test_project_text(self):
         from mmc.mock.openai import MockOpenaiClip
@@ -50,7 +52,8 @@ class TestMlfVitb16plus:
         projection = model.encode_text(tokens)
         assert isinstance(projection, torch.Tensor)
         logger.debug(projection.shape)
-    
+
+
     def test_project_img(self):
         from mmc.mock.openai import MockOpenaiClip
         from mmc.loaders import MlfClipLoader
@@ -58,8 +61,11 @@ class TestMlfVitb16plus:
         ldr = MlfClipLoader(**self.loader_args)
         mlf_clip = ldr.load()
         model = MockOpenaiClip(mlf_clip)
-        #img = PIL.Image.open("./tests/assets/marley_birthday.jpg").resize((300,300))
-        img = torch.rand(1,3,300,300) # batch x channels x height x width
+        im_size = model.visual.input_resolution
+        logger.debug(im_size)
+        img = torch.rand(1,3,im_size, im_size) # batch x channels x height x width
+        #img = torch.rand(3,im_size, im_size) # batch x channels x height x width
+        logger.debug(img.shape)
         projection = model.encode_image(img)
         assert isinstance(projection, torch.Tensor)
         logger.debug(projection.shape)

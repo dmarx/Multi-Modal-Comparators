@@ -43,7 +43,8 @@ class MlfClipLoader(BaseMmcLoader):
         import open_clip
         #model, preprocess_image = clip.load(self.id, jit=False, device=device)
         model_name, dataset = self.id.split('--')
-        model, _, preprocess_image = open_clip.create_model_and_transforms(
+        #model, _, preprocess_image = open_clip.create_model_and_transforms(
+        model, preprocess_image, _ = open_clip.create_model_and_transforms(
             model_name=model_name, 
             pretrained=dataset)
 
@@ -69,6 +70,7 @@ for model_name, dataset in open_clip.list_pretrained():
     metadata = {}
     if model_name == "ViT-B-16-plus-240":
         metadata['input_resolution'] = 240
+    logger.debug((model_name, metadata))
     register_model(
         MlfClipLoader(
             id=f"{model_name}--{dataset}",

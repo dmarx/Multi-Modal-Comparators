@@ -7,6 +7,7 @@ from dataclasses import dataclass
 
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
+from loguru import logger
 
 @dataclass
 class MockVisionModel:
@@ -46,8 +47,13 @@ class MockOpenaiClip:
             if hasattr(mmc_object._model, 'visual'):
                 if hasattr(mmc_object._model.visual, 'input_resolution'):
                     self.visual = mmc_object._model.visual
+                elif hasattr(mmc_object._model.visual, 'image_size'):
+                    self.visual = mmc_object._model.visual
+                    self.visual.input_resolution = self.visual.image_size
 
         if not hasattr(self, 'visual'):
+            logger.debug("'visual' attribute not found in model. Mocking vision model API.")
+            logger.debug(vision_args)
             self.visual = MockVisionModel(**vision_args)
     
     def encode_image(
