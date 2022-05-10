@@ -167,6 +167,8 @@ The MultiMMC does not support API mocking because of its reliance on the `compar
 
 # Available Pre-trained Models
 
+Some model comparisons [here](https://t.co/iShJpm5GjL)
+
 ```
 # [<architecture> - <publisher> - <id>]
 [clip - openai - RN50]
