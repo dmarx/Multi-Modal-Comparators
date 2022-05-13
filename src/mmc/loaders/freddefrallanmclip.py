@@ -13,12 +13,12 @@ from ..registry import REGISTRY, register_model
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 def clip_from_model_name(model_name):
-    model_name.split('_')
-    return(model_name[0])
+    split_name = model_name.split('_')
+    return(split_name[0])
 
 def mlang_from_model_name(model_name):
-    model_name.split('_')
-    return(model_name[1])
+    split_name = model_name.split('_')
+    return(split_name[1])
 
 #class FrallanMClipLoader(OpenAiClipLoader):
 class FrallanMClipLoader(BaseMmcLoader):
