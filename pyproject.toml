@@ -13,8 +13,8 @@ Pillow = "^7.1.2" #"^9.1.0"
 #torch = "^1.11.0"
 #torchvision = "^0.12.0"
 #torchaudio = "^0.11.0"
-kornia = "^0.6.4"
-open-clip-torch = "^1.0.1"
+kornia = "^0.6.4" 
+open-clip-torch = {git = "https://github.com/mlfoundations/open_clip", branch = "main"}
 declip = {git = "https://github.com/pytti-tools/DeCLIP", branch = "installable"}
 kelip = {git = "https://github.com/navervision/KELIP.git", branch = "master"}
 sentence-transformers = "^2.2.0"
