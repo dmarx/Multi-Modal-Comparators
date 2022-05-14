@@ -74,8 +74,8 @@ class MockOpenaiClip:
         project = self.mmc_object.modes['text']['projector']
         return project(text)
     
-    def tokenize(self):
+    def preprocess_text(self):
         return self.mmc_object.modes['text']['preprocessor']
     
-    def normalize(self):
+    def preprocess_image(self):
         return self.mmc_object.modes['image']['preprocessor']
