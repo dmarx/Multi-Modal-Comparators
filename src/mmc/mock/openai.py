@@ -73,3 +73,9 @@ class MockOpenaiClip:
         # bypass pre-processor
         project = self.mmc_object.modes['text']['projector']
         return project(text)
+    
+    def tokenize(self):
+        return self.mmc_object.modes['text']['preprocessor']
+    
+    def normalize(self):
+        return self.mmc_object.modes['image']['preprocessor']
