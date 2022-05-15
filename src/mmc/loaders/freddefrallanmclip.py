@@ -12,6 +12,13 @@ from ..registry import REGISTRY, register_model
 
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
+def clip_from_model_name(model_name):
+    split_name = model_name.split('_')
+    return(split_name[0])
+
+def mlang_from_model_name(model_name):
+    split_name = model_name.split('_')
+    return(split_name[1])
 
 #class FrallanMClipLoader(OpenAiClipLoader):
 class FrallanMClipLoader(BaseMmcLoader):
@@ -34,7 +41,8 @@ class FrallanMClipLoader(BaseMmcLoader):
         #im_model =oai_model.visual.clone()
         #del oai_model
         import clip
-        model, preprocess_image = clip.load(self.id, jit=False, device=device)
+        clip_model = clip_from_model_name(self.id)
+        model, preprocess_image = clip.load(clip_model, jit=False, device=device)
         model.eval()
         model.requires_grad_(False)
         #modelv = model.vision.clone()
@@ -54,7 +62,8 @@ class FrallanMClipLoader(BaseMmcLoader):
         )
         napm.populate_pythonpaths('mmc')
         from ff_multilingual_clip.src import multilingual_clip
-        text_model = multilingual_clip.load_model('M-BERT-Distil-40')
+        mlang_model = mlang_from_model_name(self.id)
+        text_model = multilingual_clip.load_model(mlang_model)
         #oai_model.modes['text']['projector'] = text_model
         #oai_model.modes['text']['preprocessor'] = 
         #oai_model.name = str(self)
@@ -75,3 +84,17 @@ class FrallanMClipLoader(BaseMmcLoader):
         mmc._model = (text_model, modelv)
         return mmc
 
+model_ids = [
+    'RN50x4_M-BERT-Distil-40',
+    'RN50x4_M-BERT-Distil-69',
+    'RN50x4_Swe-CLIP-500k',
+    'RN50x4_Swe-CLIP-2M',
+    'ViT-B/32_M-BERT-Base-ViT-B'
+]
+
+for model in model_ids:
+    register_model(
+        FrallanMClipLoader(
+            id=model
+        )
+    )
