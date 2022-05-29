@@ -50,6 +50,7 @@ class MlfClipLoader(BaseMmcLoader):
 
         model.requires_grad_(False)
         model.eval()
+        model.set_grad_checkpointing()
         model.to(device, memory_format=torch.channels_last)
         #tokenizer = clip.tokenize # clip.simple_tokenizer.SimpleTokenizer()
         tokenizer = open_clip.tokenize # clip.simple_tokenizer.SimpleTokenizer()
