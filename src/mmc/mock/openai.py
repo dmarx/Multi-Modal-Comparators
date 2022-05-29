@@ -9,6 +9,39 @@ DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 
 from loguru import logger
 
+
+class MockOpenaiClipModule:
+    """
+    Mocks the OpenAI CLIP.clip module API
+    """
+    def __init__(self, loader, device=DEVICE):
+        self._loader = loader
+        self.device = device
+
+    def available_models(self):
+        # ...should this return the mmc registry?
+        return str(self._loader)
+
+    @property
+    def _model(self):
+        if not hasattr(self, '_model_'):
+            self._model_ = self._loader.load(self.device)
+        return self._model_
+
+    @property
+    def tokenize(self):
+        return self._model.modes['text']['preprocessor']
+
+    @property
+    def preprocess_image(self):
+        return self._model.modes['image']['preprocessor']
+
+    @property
+    def load(self, id, device=DEVICE):
+        clip = MockOpenaiClip(self._model, self.device)
+        return clip, self.preprocess_image
+
+
 @dataclass
 class MockVisionModel:
     input_resolution: int = 224
