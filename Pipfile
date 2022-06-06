@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+torch = "*"
+Pillow = "*"
+mmc = {editable = true, path = "."}
+clip-anytorch = "*"
+
+[dev-packages]
+pytest = "*"
+
+[requires]
+python_version = "3.9"
