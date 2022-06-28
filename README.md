@@ -54,6 +54,27 @@ the CLOOB loader will show as registered and spinning up the registry will longe
 # spin up the registry
 from mmc import loaders
 
+## Using the 'mocked' openai API to load supported CLIP models
+
+from mmc.ez.CLIP import clip
+clip.available_models()
+
+# requesting a tokenizer before loading the model
+# returns the openai clip SimpleTokenizer
+#tokenize = clip.tokenize
+
+# either of these works
+model, preprocessor = clip.load('RN50')
+model, preprocessor = clip.load('[clip - openai - RN50]')
+
+# if we request the tokenizer *after* a model has been loaded, 
+# the tokenizer appropriate to the loaded model is returned 
+tokenize = clip.tokenize
+
+###############################
+
+## Slightly "closer to the metal" usage
+
 from mmc.mock.openai import MockOpenaiClip
 from mmc.registry import REGISTRY
 
@@ -120,7 +141,54 @@ is a modality-agnostic abstraction. I'll get to the ins and outs of that another
 ## API Mocking
 
 You want something you can just drop into your code and it'll work. We got you. This library provides wrapper
-classes to mock the APIs of commonly used CLIP implementations. To wrap a `MultiModalComparator` so it can
+classes to mock the APIs of commonly used CLIP implementations (at present, OpenAI's CLIP is the only API which can be mocked). 
+Individual loaders can be wrapped after instantiation (see below), but we also provide an "easy mode" API for best user experience.
+
+### Using the 'Easy Mode' CLIP API
+
+Let's consider a codebase that already has openai/CLIP installed, via e.g. `pip install git+https://github.com/openai/CLIP` or `pip install clip-anytorch`.
+
+All we have to do to integrate MMC is change
+
+**Step 1:**
+
+```
+# let's call this the "normal clip object"
+import clip
+```
+
+to
+
+```
+#from mmc import loaders ## optional, populates the mmc registry with all supported loaders
+from mmc.ez.CLIP import clip
+```
+
+**Step 2.** (optional but strongly advised)
+
+Make sure an references to `clip.tokenize` appear *after* `clip.load()` has already been invoked
+
+
+And that's it!
+
+
+Here's what this change gives us:
+
+* `clip.available_models()`
+  - In addition to all of the values normally returned when this method is invoked on the normal `clip` object, also returns all currently available models known to the MMC registry.
+
+* `clip.load()`
+  - Supports any model aliases returned by `clip.available_models()`
+  - Invoking `clip.load()` with arguments like `'RN50'` or `'ViT-B/16'` will return the expected OopenAI clip model. 
+  - Additionally supports loading models using the mmc alias convention, i.e. `clip.load('RN50')` is equivalent to `clip.load('[clip - openai - RN50]')`
+
+* `clip.tokenize` 
+  - Returns the OpenAI tokenizer by default, exactly as if we had invoked `clip.tokenize` on the original `clip` object rather than `mmc.ez.clip`.
+  - if a model has already been loaded using the `clip.load()` method above, then `clip.tokenize` returns the text preprocessor appropriate to that model. At present, most CLIP implementations are published with Openai's tokenizer so you might not experience any issues if you don't reorganize this part of your code.
+
+### Mocking Individual Loaders
+
+To wrap a `MultiModalComparator` so it can
 be used as a drop-in replacement with code compatible with OpenAI's CLIP:
 
 ```
@@ -131,6 +199,8 @@ model = MockOpenaiClip(my_model)
 ```
 
 ## MultiMMC: Multi-Perceptor Implementation
+
+*(WIP, behavior likely to change in near future)*
 
 The `MultiMMC` class can be used to run inference against multiple mmc models in parallel. This form of 
 ensemble is sometimes referred to as a "multi-perceptor".
