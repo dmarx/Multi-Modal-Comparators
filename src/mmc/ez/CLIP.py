@@ -1,9 +1,20 @@
 import warnings
 
-from CLIP import clip as openai_clip
+#from CLIP import clip as openai_clip
+import clip as openai_clip
 
-from .mock.openai import MockOpenaiClip
-from .registry import REGISTRY
+# initialize
+#from ..loaders
+import mmc
+import mmc.loaders
+
+#from ..mock.openai import MockOpenaiClip
+#from ..registry import REGISTRY
+
+from mmc.mock.openai import MockOpenaiClip
+from mmc.registry import REGISTRY
+
+
 
 
 class EzClip:
@@ -24,7 +35,7 @@ class EzClip:
         """
         Converts an MMC alias to a query.
         """
-        id, publisher, architecture = alias.slplit(' - ')
+        architecture, publisher, id = alias[1:-1].split(' - ')
         return {'id':id, 'publisher':publisher, 'architecture':architecture}
 
     def available_models(self):
@@ -33,7 +44,7 @@ class EzClip:
         """
         return list(self.d_openai.keys()) + [str(m) for m in REGISTRY.find()]
 
-    def load(self, id, device=DEVICE):
+    def load(self, id, device=None):
         """
         Loads a model from the registry.
         """
