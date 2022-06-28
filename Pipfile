@@ -6,11 +6,11 @@ name = "pypi"
 [packages]
 torch = "*"
 Pillow = "*"
-mmc = {editable = true, path = "."}
 clip-anytorch = "*"
 
 [dev-packages]
 pytest = "*"
+mmc = {editable = true, path = "."}
 
 [requires]
 python_version = "3.9"
