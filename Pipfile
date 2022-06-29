@@ -10,6 +10,7 @@ name = "pytorch"
 
 [packages]
 torch = {version = "*", index = "pytorch"}
+torchvision = {version = "*", index = "pytorch"}
 Pillow = "*"
 clip-anytorch = "*"
 
