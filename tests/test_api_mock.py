@@ -48,7 +48,7 @@ class TestMlfVitb16plus:
         ldr = MlfClipLoader(**self.loader_args)
         mlf_clip = ldr.load()
         model = MockOpenaiClip(mlf_clip)
-        tokens = clip.tokenize("foo bar baz")
+        tokens = clip.tokenize("foo bar baz").to(model.device)
         projection = model.encode_text(tokens)
         assert isinstance(projection, torch.Tensor)
         logger.debug(projection.shape)
@@ -66,6 +66,7 @@ class TestMlfVitb16plus:
         img = torch.rand(1,3,im_size, im_size) # batch x channels x height x width
         #img = torch.rand(3,im_size, im_size) # batch x channels x height x width
         logger.debug(img.shape)
+        img = img.to(model.device)
         projection = model.encode_image(img)
         assert isinstance(projection, torch.Tensor)
         logger.debug(projection.shape)
