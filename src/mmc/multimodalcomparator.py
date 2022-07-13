@@ -67,9 +67,7 @@ class MultiModalComparator:
     def _supports_mode(self, modality_name):
        return modality_name in self.modes
 
-    def _project_item(self, item, mode):
-        assert self._supports_mode(mode)
-        project = self.modes[mode]['projector']
+    def _preprocess_item(self, item, mode):
         preprocess = self.modes[mode]['preprocessor']
         item = preprocess(item)
         # If preprocessor is identity, item will not be a tensor
@@ -77,11 +75,15 @@ class MultiModalComparator:
             item = item.to(self.device)
         except:
             pass
-        #logger.debug(item.shape)
-        #logger.debug(item.ndim)
         if hasattr(item, 'ndim') and (item.ndim == 1):
             item = item.unsqueeze(0)
-        
+        return item 
+
+    def _project_item(self, item, mode, preprocess=True):
+        assert self._supports_mode(mode)
+        project = self.modes[mode]['projector']
+        if preprocess:
+            item = self._preprocess_item(item, mode)
         return project(item)
 
     @property
@@ -94,12 +96,12 @@ class MultiModalComparator:
     def supports_audio(self):
         return self._supports_mode('audio')  
 
-    def project_text(self, text):
-        return self._project_item(text, 'text')
-    def project_image(self, image):
-        return self._project_item(image, 'image')
-    def project_audio(self, audio):
-       return self._project_item(audio, 'audio')
+    def project_text(self, text, preprocess=True):
+        return self._project_item(item=text, mode='text', preprocess=preprocess)
+    def project_image(self, image, preprocess=True):
+        return self._project_item(item=image, mode='image', preprocess=preprocess)
+    def project_audio(self, audio, preprocess=True):
+       return self._project_item(item=audio, mode='audio', preprocess=preprocess)
     @property
     def name(self):
        return str(self)

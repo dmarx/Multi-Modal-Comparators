@@ -1,6 +1,9 @@
 # for vs code
 settings.json
 
+Pipfile.lock
+poetry.lock
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

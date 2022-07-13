@@ -95,8 +95,9 @@ class MockOpenaiClip:
     ) -> torch.Tensor:
         #return self.mmc_object.project_image(image)
         # bypass pre-processor
-        project = self.mmc_object.modes['image']['projector']
-        return project(image)
+        #project = self.mmc_object.modes['image']['projector']
+        #return project(image)
+        return self.mmc_object.project_image(image, preprocess=False)
 
     def encode_text(
         self,
@@ -104,5 +105,6 @@ class MockOpenaiClip:
     ) -> torch.Tensor:
         #return self.mmc_object.project_text(text)
         # bypass pre-processor
-        project = self.mmc_object.modes['text']['projector']
-        return project(text)
+        #project = self.mmc_object.modes['text']['projector']
+        #return project(text)
+        return self.mmc_object.project_text(text, preprocess=False)

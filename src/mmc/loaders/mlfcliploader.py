@@ -29,17 +29,22 @@ class MlfClipLoader(BaseMmcLoader):
         self,
         id,
         metadata=None,
+        device=DEVICE,
     ):
         self.architecture = 'clip' # should this be a type too?
         self.publisher = 'mlfoundations'
         self.id = id
         self.modalities = (TEXT, IMAGE)
         self.metadata = {} if metadata is None else metadata
+        self.device = device
 
-    def load(self, device=DEVICE):
+    def load(self, device=None):
         """
         Returns the MMC associated with this loader.
         """
+        if device is None:
+            device = self.device
+
         import open_clip
         #model, preprocess_image = clip.load(self.id, jit=False, device=device)
         model_name, dataset = self.id.split('--')
