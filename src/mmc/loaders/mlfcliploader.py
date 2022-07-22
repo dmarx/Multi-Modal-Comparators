@@ -5,7 +5,7 @@ https://github.com/mlfoundations/open_clip
 
 
 #import clip # this should probably be isolated somehow
-import open_clip
+#import open_clip
 from loguru import logger
 import torch
 
@@ -71,14 +71,17 @@ class MlfClipLoader(BaseMmcLoader):
         mmc._model = model
         return mmc
 
-
-for model_name, dataset in open_clip.list_pretrained():
-    metadata = {}
-    if model_name == "ViT-B-16-plus-240":
-        metadata['input_resolution'] = 240
-    logger.debug((model_name, metadata))
-    register_model(
-        MlfClipLoader(
-            id=f"{model_name}--{dataset}",
-            metadata=metadata),
-    )
+try:
+    import open_clip
+    for model_name, dataset in open_clip.list_pretrained():
+        metadata = {}
+        if model_name == "ViT-B-16-plus-240":
+            metadata['input_resolution'] = 240
+        logger.debug((model_name, metadata))
+        register_model(
+            MlfClipLoader(
+                id=f"{model_name}--{dataset}",
+                metadata=metadata),
+        )
+except ImportError:
+    pass
