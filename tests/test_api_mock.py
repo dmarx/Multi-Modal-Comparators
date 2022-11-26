@@ -36,7 +36,7 @@ class TestMlfVitb16plus:
         ldr = MlfClipLoader(**self.loader_args)
         mlf_clip = ldr.load()
         model = MockOpenaiClip(mlf_clip)
-        assert model.visual.input_resolution == 240
+        assert model.visual.input_resolution == (240, 240)
 
 
     def test_project_text(self):
@@ -61,7 +61,7 @@ class TestMlfVitb16plus:
         ldr = MlfClipLoader(**self.loader_args)
         mlf_clip = ldr.load()
         model = MockOpenaiClip(mlf_clip)
-        im_size = model.visual.input_resolution
+        im_size = model.visual.input_resolution[0]
         logger.debug(im_size)
         img = torch.rand(1,3,im_size, im_size) # batch x channels x height x width
         #img = torch.rand(3,im_size, im_size) # batch x channels x height x width

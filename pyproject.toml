@@ -9,7 +9,7 @@ license = "MIT"
 python = "^3.7"
 clip = {git = "https://github.com/openai/CLIP", branch = "main"}
 loguru = "^0.6.0"
-Pillow = "^7.1.2" #"^9.1.0"
+#Pillow = "^7.1.2" #"^9.1.0"
 #torch = "^1.11.0"
 #torchvision = "^0.12.0"
 #torchaudio = "^0.11.0"
