@@ -5,6 +5,7 @@
 ```
 git clone https://github.com/dmarx/Multi-Modal-Comparators
 cd 'Multi-Modal-Comparators'
+cp pyproject.toml.INSTALL-ALL pyproject.toml
 pip install poetry
 poetry build
 pip install dist/mmc*.whl
