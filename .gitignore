@@ -4,6 +4,8 @@ settings.json
 Pipfile.lock
 poetry.lock
 
+_venv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
