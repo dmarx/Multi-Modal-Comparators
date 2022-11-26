@@ -24,15 +24,20 @@ class OpenAiClipLoader(BaseMmcLoader):
     def __init__(
         self,
         id,
+        device=DEVICE,
     ):
         self.architecture = 'clip' # should this be a type too?
         self.publisher = 'openai'
         self.id = id
         self.modalities = (TEXT, IMAGE)
-    def load(self, device=DEVICE):
+        self.device = device
+
+    def load(self, device=None):
         """
         Returns the MMC associated with this loader.
         """
+        if device is None:
+            device = self.device
         import clip
         model, preprocess_image = clip.load(self.id, jit=False, device=device)
         model.eval()
